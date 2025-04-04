@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "buildCommand": "cd story-bot && npm install && npm run build",
+  "outputDirectory": "story-bot/dist",
   "framework": "vite",
   "rewrites": [
     {
