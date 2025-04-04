@@ -1,43 +1,59 @@
-import { Box, Container, Heading, Text, Button, VStack, Image, Icon, HStack, useColorModeValue } from '@chakra-ui/react'
-import { Link as RouterLink } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Box, Container, Heading, Text, Button, VStack, Icon, HStack, useColorModeValue } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
+import { motion, Transition } from 'framer-motion'
 import { FaMagic, FaBook, FaChild } from 'react-icons/fa'
 
 // Wrap ChakraUI components with motion
 const MotionBox = motion(Box)
 const MotionVStack = motion(VStack)
-const MotionButton = motion(Button)
+const MotionLink = motion(Link)
 
-const FeatureCard = ({ icon, title, description }: { icon: any; title: string; description: string }) => (
-  <MotionBox
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, ease: "easeOut" }}
-    bg="white"
-    p={6}
-    borderRadius="xl"
-    shadow="lg"
-    border="1px"
-    borderColor="purple.100"
-    style={{ transition: 'all 0.3s' }}
-    _hover={{ transform: 'translateY(-5px)', shadow: '2xl' }}
-    textAlign="center"
-    width="full"
-    maxW="sm"
-  >
-    <Icon as={icon} w={10} h={10} color="purple.500" mb={4} />
-    <Heading size="md" mb={3} color="purple.600">
-      {title}
-    </Heading>
-    <Text color="gray.600">{description}</Text>
-  </MotionBox>
-)
+const FeatureCard = ({ icon, title, description }: { icon: any; title: string; description: string }) => {
+  const transition: Transition = {
+    duration: 0.5,
+    ease: "easeOut"
+  }
+
+  return (
+    <MotionBox
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={transition}
+      bg="white"
+      p={6}
+      borderRadius="xl"
+      shadow="lg"
+      border="1px"
+      borderColor="purple.100"
+      style={{ transition: 'transform 0.3s' }}
+      _hover={{ transform: 'translateY(-5px)', shadow: '2xl' }}
+      textAlign="center"
+      width="full"
+      maxW="sm"
+    >
+      <Icon as={icon} w={10} h={10} color="purple.500" mb={4} />
+      <Heading size="md" mb={3} color="purple.600">
+        {title}
+      </Heading>
+      <Text color="gray.600">{description}</Text>
+    </MotionBox>
+  )
+}
 
 const Home = () => {
   const bgGradient = useColorModeValue(
     'linear(to-b, purple.50, white)',
     'linear(to-b, purple.900, gray.800)'
   )
+
+  const containerTransition: Transition = {
+    duration: 0.8
+  }
+
+  const buttonTransition: Transition = {
+    type: "spring",
+    duration: 0.2
+  }
 
   return (
     <Box
@@ -67,7 +83,7 @@ const Home = () => {
           align="center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={containerTransition}
         >
           {/* Hero Section */}
           <VStack spacing={6} textAlign="center">
@@ -89,26 +105,32 @@ const Home = () => {
               Unleash your child's imagination with personalized AI-powered stories.
               Each tale is uniquely crafted to inspire, educate, and delight.
             </Text>
-            <MotionButton
-              as={RouterLink}
+            <MotionLink
               to="/generate"
-              size="lg"
-              colorScheme="purple"
-              px={8}
-              py={7}
-              fontSize="lg"
-              fontWeight="bold"
-              rightIcon={<FaMagic />}
+              style={{
+                display: 'inline-block',
+                textDecoration: 'none'
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              _hover={{
-                transform: 'translateY(-2px)',
-                boxShadow: 'xl',
-              }}
-              transition="all 0.2s"
+              transition={buttonTransition}
             >
-              Start Your Story Adventure
-            </MotionButton>
+              <Button
+                size="lg"
+                colorScheme="purple"
+                px={8}
+                py={7}
+                fontSize="lg"
+                fontWeight="bold"
+                rightIcon={<FaMagic />}
+                _hover={{
+                  transform: 'translateY(-2px)',
+                  boxShadow: 'xl',
+                }}
+              >
+                Start Your Story Adventure
+              </Button>
+            </MotionLink>
           </VStack>
 
           {/* Features Section */}
